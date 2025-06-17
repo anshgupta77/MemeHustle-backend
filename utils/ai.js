@@ -6,12 +6,11 @@ const aiCache = new Map();
 
 async function generateMemeCaption(tags) {
   const cacheKey = `caption_${tags.join('_')}`;
-  if (aiCache.has(cacheKey)) return aiCache.get(cacheKey);
+  // if (aiCache.has(cacheKey)) return aiCache.get(cacheKey);
 
   try {
-    const prompt = `Generate a unique, funny, and creative cyberpunk-style caption for a meme using the following tags: ${tags.join(', ')}. 
-    Avoid repeating previous captions. Make it short, witty, and rooted in internet meme culture. 
-    Use futuristic, neon, hacker vibes with a humorous twist. Keep the caption under 20 words.`;
+    const prompt = `Generate only one unique, short, and witty cyberpunk-style meme caption using the tags: ${tags.join(', ')}. 
+Do not list options. Do not add explanations. Just return one caption only, under 20 words, with a humorous, futuristic, hacker vibe.`;
     const result = await model.generateContent(prompt);
     const caption = result.response.text().trim();
     aiCache.set(cacheKey, caption);
@@ -27,7 +26,7 @@ async function generateMemeCaption(tags) {
 
 async function generateVibeAnalysis(tags, title) {
   const cacheKey = `vibe_${tags.join('_')}_${title}`;
-  if (aiCache.has(cacheKey)) return aiCache.get(cacheKey);
+  // if (aiCache.has(cacheKey)) return aiCache.get(cacheKey);
 
   try {
     const prompt = `Describe the vibe of a meme titled "${title}" with tags: ${tags.join(', ')} only in three words`;
