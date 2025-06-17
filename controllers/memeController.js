@@ -56,7 +56,8 @@ async function createMeme(req, res) {
 async function voteMeme(req, res) {
   try {
     const { id } = req.params;
-    const { type } = req.body;
+    const { type, user_id } = req.body;
+    console.log(user_id, 'user_id in voteMeme');
     if (!['up', 'down'].includes(type)) return res.status(400).json({ error: 'Invalid vote type' });
 
     const { data: currentMeme, error: fetchError } = await supabase

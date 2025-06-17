@@ -26,7 +26,7 @@ Do not list options. Do not add explanations. Just return one caption only, unde
 
 async function generateVibeAnalysis(tags, title) {
   const cacheKey = `vibe_${tags.join('_')}_${title}`;
-  // if (aiCache.has(cacheKey)) return aiCache.get(cacheKey);
+  if (aiCache.has(cacheKey)) return aiCache.get(cacheKey);
 
   try {
     const prompt = `Describe the vibe of a meme titled "${title}" with tags: ${tags.join(', ')} only in three words`;
