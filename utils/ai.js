@@ -9,7 +9,9 @@ async function generateMemeCaption(tags) {
   if (aiCache.has(cacheKey)) return aiCache.get(cacheKey);
 
   try {
-    const prompt = `Generate a funny, cyberpunk-style caption for a meme with tags: ${tags.join(', ')} maximum in 50 words`;
+    const prompt = `Generate a unique, funny, and creative cyberpunk-style caption for a meme using the following tags: ${tags.join(', ')}. 
+    Avoid repeating previous captions. Make it short, witty, and rooted in internet meme culture. 
+    Use futuristic, neon, hacker vibes with a humorous twist. Keep the caption under 20 words.`;
     const result = await model.generateContent(prompt);
     const caption = result.response.text().trim();
     aiCache.set(cacheKey, caption);
