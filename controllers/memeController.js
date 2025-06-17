@@ -26,41 +26,68 @@ async function getMemes(req, res) {
   }
 }
 
+// async function createMeme(req, res) {
+//   try {
+//     const { title, image_url, tags } = req.body;
+//     console.log('Creating meme:', { title, image_url, tags });
+//     const owner_id = mockUsers[Math.floor(Math.random() * mockUsers.length)];
+    
+//     // Use default image if none provided
+//     const finalImageUrl = image_url || `https://picsum.photos/400/400?random=${Date.now()}`;
+    
+//     // Generate AI caption and vibe
+//     const caption = await generateMemeCaption(tags);
+//     const vibe = await generateVibeAnalysis(tags, title);
+
+//     const { data, error } = await supabase
+//       .from('memes')
+//       .insert([{
+//         title,
+//         image_url: finalImageUrl,
+//         tags,
+//         upvotes: 0,
+//         owner_id,
+//         caption,
+//         vibe
+//       }])
+//       .select()
+//       .single();
+
+//     if (error) throw error;
+
+//     // Emit real-time update
+//     io.emit('meme_created', data);
+    
+//     res.json(data);
+//   } catch (error) {
+//     console.error('Error creating meme:', error);
+//     res.status(500).json({ error: 'Failed to create meme' });
+//   }
+// }
+
+
+
+
 async function createMeme(req, res) {
   try {
     const { title, image_url, tags } = req.body;
-    console.log('Creating meme:', { title, image_url, tags });
     const owner_id = mockUsers[Math.floor(Math.random() * mockUsers.length)];
-    
-    // Use default image if none provided
     const finalImageUrl = image_url || `https://picsum.photos/400/400?random=${Date.now()}`;
-    
-    // Generate AI caption and vibe
     const caption = await generateMemeCaption(tags);
     const vibe = await generateVibeAnalysis(tags, title);
 
     const { data, error } = await supabase
       .from('memes')
-      .insert([{
-        title,
-        image_url: finalImageUrl,
-        tags,
-        upvotes: 0,
-        owner_id,
-        caption,
-        vibe
-      }])
+      .insert([{ title, image_url: finalImageUrl, tags, upvotes: 0, owner_id, caption, vibe }])
       .select()
       .single();
 
     if (error) throw error;
 
-    // Emit real-time update
-    io.emit('meme_created', data);
-    
+    res.io.emit('meme_created', data);
     res.json(data);
-  } catch (error) {
-    console.error('Error creating meme:', error);
+  } catch (err) {
+    console.error('Error creating meme:', err);
     res.status(500).json({ error: 'Failed to create meme' });
   }
 }

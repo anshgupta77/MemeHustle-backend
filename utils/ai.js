@@ -9,7 +9,7 @@ async function generateMemeCaption(tags) {
   if (aiCache.has(cacheKey)) return aiCache.get(cacheKey);
 
   try {
-    const prompt = `Generate a funny, cyberpunk-style caption for a meme with tags: ${tags.join(', ')}`;
+    const prompt = `Generate a funny, cyberpunk-style caption for a meme with tags: ${tags.join(', ')} maximum in 50 words`;
     const result = await model.generateContent(prompt);
     const caption = result.response.text().trim();
     aiCache.set(cacheKey, caption);
