@@ -4,8 +4,8 @@ const mockUsers = require('../utils/mockUsers');
 async function placeBid(req, res) {
   try {
     const { id } = req.params;
-    const { credits } = req.body;
-    const user_id = mockUsers[Math.floor(Math.random() * mockUsers.length)];
+    const { credits, user_id } = req.body;
+
 
     const { data, error } = await supabase
       .from('bids')
