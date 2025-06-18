@@ -7,9 +7,9 @@ const getLeaderboard = async (req, res) => {
   try {
     const { top = 10 } = req.query;
 
-    if (leaderboardCache && Date.now() < cacheExpiry) {
-      return res.json(leaderboardCache.slice(0, parseInt(top)));
-    }
+    // if (leaderboardCache && Date.now() < cacheExpiry) {
+    //   return res.json(leaderboardCache.slice(0, parseInt(top)));
+    // }
 
     const { data, error } = await supabase
       .from('memes')
@@ -20,7 +20,8 @@ const getLeaderboard = async (req, res) => {
     if (error) throw error;
 
     leaderboardCache = data;
-    cacheExpiry = Date.now() + 30000;
+    console.log(Date.now());
+    cacheExpiry = Date.now() + 60 * 1000; 
 
     res.json(data.slice(0, parseInt(top)));
   } catch (error) {
