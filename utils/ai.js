@@ -29,7 +29,7 @@ async function generateVibeAnalysis(tags, title) {
   if (aiCache.has(cacheKey)) return aiCache.get(cacheKey);
 
   try {
-    const prompt = `Describe the vibe of a meme titled "${title}" with tags: ${tags.join(', ')} only in three words`;
+    const prompt = `Describe the vibe of a meme titled "${title}" with tags: ${tags.join(', ')}. provide me the vibe in the three words.`;
     const result = await model.generateContent(prompt);
     const vibe = result.response.text().trim();
     aiCache.set(cacheKey, vibe);
